@@ -79,6 +79,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Pages\AuthPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\DogsListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\VetMainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControlls\DogUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -141,6 +157,18 @@
     <Compile Include="Domain\Utilities\ObservableObject.cs" />
     <Compile Include="Domain\Utilities\ViewModel.cs" />
     <Compile Include="Injection\App.cs" />
+    <Compile Include="Pages\AuthPage.xaml.cs">
+      <DependentUpon>AuthPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\DogsListPage.xaml.cs">
+      <DependentUpon>DogsListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\VetMainPage.xaml.cs">
+      <DependentUpon>VetMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControlls\DogUserControl.xaml.cs">
+      <DependentUpon>DogUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\AuthViewModel.cs" />
     <Compile Include="ViewModels\GuestViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
