@@ -55,19 +55,6 @@ namespace Sobaki.ViewModels
 
             Dogs = new ObservableCollection<Dog>(dogs);
             OnPropertyChanged(nameof(Dogs));
-
-            //var path = @"C:\Users\212119\Desktop\dogsImages\dog";
-            //for (int i = 1; i <= 13; i++)
-            //{
-            //    var imagePath = $"{path}{i}.png";
-
-            //    var bytes = File.ReadAllBytes(imagePath);
-
-            //    var dog = Dogs.FirstOrDefault(it => it.Id == i);
-            //    dog.BinImage = bytes;
-            //}
-
-            await _db.SaveChangesAsync();
         }
 
         public override void Dispose()
