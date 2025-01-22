@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Sobaki.Domain.Commands
 {
-    public class RelayAsyncCommand
+    public class RelayAsyncCommand : ICommand
     {
         private readonly Func<Task> _execute;
         private readonly Func<object, Task> _paramedExecute;

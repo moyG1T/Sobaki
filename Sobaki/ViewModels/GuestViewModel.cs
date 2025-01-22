@@ -1,22 +1,73 @@
 ﻿using Sobaki.Data.Remote;
+using Sobaki.Domain.Commands;
+using Sobaki.Domain.IServices;
 using Sobaki.Domain.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data.Entity;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Shapes;
 
 namespace Sobaki.ViewModels
 {
     public class GuestViewModel : ViewModel
     {
+        private readonly StrayDogzEntities _db;
+
         public ICommand CallAdminCommand { get; }
         public ICommand PushAuthCommand { get; }
         public ICommand StartCommand { get; }
+        public ICommand TakeDogCommand { get; }
 
-        public List<Dog> Dogs { get; set; } = new List<Dog>();
+        public ObservableCollection<Dog> Dogs { get; set; } = new ObservableCollection<Dog>();
 
-        public GuestViewModel()
+        public GuestViewModel(INavService auth, INavService call, StrayDogzEntities db)
         {
+            PushAuthCommand = new PushCommand(auth);
+            CallAdminCommand = new PushCommand(call);
+            TakeDogCommand = new RelayAsyncCommand(TakeDog);
+            _db = db;
 
+            Task.Run(LoadDogs);
+        }
+
+        private async Task TakeDog(object param)
+        {
+            if (param is Dog dog)
+            {
+                dog.IdGiven = true;
+                Dogs.Remove(dog);
+
+                await _db.SaveChangesAsync();
+
+                MessageBox.Show("Спасибо!");
+            }
+        }
+
+        private async Task LoadDogs()
+        {
+            var dogs = await _db.Dogs.Where(it => !it.IdGiven && !it.IsDead).ToListAsync();
+
+            Dogs = new ObservableCollection<Dog>(dogs);
+            OnPropertyChanged(nameof(Dogs));
+
+            //var path = @"C:\Users\212119\Desktop\dogsImages\dog";
+            //for (int i = 1; i <= 13; i++)
+            //{
+            //    var imagePath = $"{path}{i}.png";
+
+            //    var bytes = File.ReadAllBytes(imagePath);
+
+            //    var dog = Dogs.FirstOrDefault(it => it.Id == i);
+            //    dog.BinImage = bytes;
+            //}
+
+            await _db.SaveChangesAsync();
         }
 
         public override void Dispose()

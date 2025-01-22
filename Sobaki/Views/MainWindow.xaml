@@ -3,10 +3,28 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Sobaki"
+        xmlns:local="clr-namespace:Sobaki" 
+        xmlns:viewmodels="clr-namespace:Sobaki.ViewModels"
+        d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
+        xmlns:views="clr-namespace:Sobaki.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Собачки" 
+        Height="450" Width="800"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewmodels:AuthViewModel}">
+            <views:AuthView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:GuestViewModel}">
+            <views:InitialView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:AdminCallViewModel}">
+            <views:AdminCallSheet/>
+        </DataTemplate>
+    </Window.Resources>
+    
     <Grid>
-        
+        <ContentControl Content="{Binding CurrentViewModel}"/>
     </Grid>
 </Window>

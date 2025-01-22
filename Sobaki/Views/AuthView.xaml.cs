@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Sobaki.Pages
+namespace Sobaki.Views
 {
     /// <summary>
-    /// Логика взаимодействия для AuthPage.xaml
+    /// Логика взаимодействия для AuthView.xaml
     /// </summary>
-    public partial class AuthPage : Page
+    public partial class AuthView : UserControl
     {
-        public AuthPage()
+        public AuthView()
         {
             InitializeComponent();
         }

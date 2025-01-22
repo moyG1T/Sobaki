@@ -1,7 +1,9 @@
-﻿using Sobaki.Domain.Contexts;
+﻿using Sobaki.Domain.Commands;
+using Sobaki.Domain.Contexts;
 using Sobaki.Domain.IServices;
 using Sobaki.Domain.Utilities;
 using System;
+using System.Windows.Input;
 
 namespace Sobaki.ViewModels
 {
@@ -11,9 +13,11 @@ namespace Sobaki.ViewModels
 
         public ViewModel CurrentViewModel => _mainContext.CurrentViewModel;
 
-        public MainViewModel(INavService auth, INavService main, MainContext mainContext)
+        public MainViewModel(INavService initial, MainContext mainContext)
         {
             _mainContext = mainContext;
+
+            initial.Push();
 
             _mainContext.ViewModelChanged += OnViewModelChanged;
         }

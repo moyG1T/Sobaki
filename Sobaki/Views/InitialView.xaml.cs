@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Sobaki.UserControlls
+namespace Sobaki.Views
 {
     /// <summary>
-    /// Логика взаимодействия для DogUserControl.xaml
+    /// Логика взаимодействия для InitialView.xaml
     /// </summary>
-    public partial class DogUserControl : UserControl
+    public partial class InitialView : UserControl
     {
-        public DogUserControl()
+        public InitialView()
         {
             InitializeComponent();
         }

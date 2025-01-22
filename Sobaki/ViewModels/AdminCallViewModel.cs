@@ -6,11 +6,11 @@ using System.Windows.Input;
 
 namespace Sobaki.ViewModels
 {
-    public class AuthViewModel : ViewModel
+    public class AdminCallViewModel : ViewModel
     {
         public ICommand PopCommand { get; private set; }
 
-        public AuthViewModel(INavService back)
+        public AdminCallViewModel(INavService back)
         {
             PopCommand = new PopCommand(back);
         }

@@ -13,18 +13,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Sobaki.Pages
+namespace Sobaki.Views
 {
     /// <summary>
-    /// Логика взаимодействия для VetMainPage.xaml
+    /// Логика взаимодействия для AdminCallSheet.xaml
     /// </summary>
-    public partial class VetMainPage : Page
+    public partial class AdminCallSheet : UserControl
     {
-        public VetMainPage()
+        public AdminCallSheet()
         {
-            //такая же как и dogslistpage не стал копировать код
-            //такой же код версти (почти) для страницы админа
-            //я не умею наследовать страницы
             InitializeComponent();
         }
     }

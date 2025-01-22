@@ -22,9 +22,14 @@ namespace Sobaki
             // бд
             services.AddSingleton<StrayDogzEntities>();
 
+
             // view models
             services.AddSingleton(MainViewModelFactory);
             services.AddSingleton(MainWindowFactory);
+
+            services.AddTransient(AuthViewModelFactory);
+            services.AddTransient(GuestViewModelFactory);
+            services.AddTransient(AdminCallViewModelFactory);
 
             _provider = services.BuildServiceProvider();
         }
@@ -42,11 +47,28 @@ namespace Sobaki
         protected MainViewModel MainViewModelFactory(IServiceProvider p)
         {
             return new MainViewModel(
-                AuthMainNavServiceFactory(p), 
-                AuthMainNavServiceFactory(p), 
+                GuestMainNavServiceFactory(p),
                 p.GetRequiredService<MainContext>()
                 );
         }
+        protected AuthViewModel AuthViewModelFactory(IServiceProvider p)
+        {
+            return new AuthViewModel(BackOnlyMainNavServiceFactory(p));
+        }
+        protected GuestViewModel GuestViewModelFactory(IServiceProvider p)
+        {
+            return new GuestViewModel(
+                AuthMainNavServiceFactory(p),
+                AdminCallMainNavServiceFactory(p),
+                p.GetRequiredService<StrayDogzEntities>()
+                );
+        }
+        protected AdminCallViewModel AdminCallViewModelFactory(IServiceProvider p)
+        {
+            return new AdminCallViewModel(BackOnlyMainNavServiceFactory(p));
+        }
+
+        // окна
         protected MainWindow MainWindowFactory(IServiceProvider p)
         {
             return new MainWindow
@@ -56,9 +78,21 @@ namespace Sobaki
         }
 
         // nav services
-        protected MainNavService AuthMainNavServiceFactory(IServiceProvider p)
+        protected MainNavService BackOnlyMainNavServiceFactory(IServiceProvider p)
         {
             return new MainNavService(p.GetRequiredService<MainContext>());
+        }
+        protected MainNavService AuthMainNavServiceFactory(IServiceProvider p)
+        {
+            return new MainNavService(p.GetRequiredService<MainContext>(), p.GetRequiredService<AuthViewModel>);
+        }
+        protected MainNavService GuestMainNavServiceFactory(IServiceProvider p)
+        {
+            return new MainNavService(p.GetRequiredService<MainContext>(), p.GetRequiredService<GuestViewModel>);
+        }
+        protected MainNavService AdminCallMainNavServiceFactory(IServiceProvider p)
+        {
+            return new MainNavService(p.GetRequiredService<MainContext>(), p.GetRequiredService<AdminCallViewModel>);
         }
     }
 }

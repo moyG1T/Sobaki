@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Sobaki.Pages
+namespace Sobaki.Views
 {
     /// <summary>
-    /// Логика взаимодействия для DogsListPage.xaml
+    /// Логика взаимодействия для DogSheet.xaml
     /// </summary>
-    public partial class DogsListPage : Page
+    public partial class DogSheet : UserControl
     {
-        public DogsListPage()
+        public DogSheet()
         {
             InitializeComponent();
         }
