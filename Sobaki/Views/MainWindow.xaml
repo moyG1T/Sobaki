@@ -22,6 +22,9 @@
         <DataTemplate DataType="{x:Type viewmodels:AdminCallViewModel}">
             <views:AdminCallSheet/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:AdminPanelViewModel}">
+            <views:AdminPanelView/>
+        </DataTemplate>
     </Window.Resources>
     
     <Grid>

@@ -4,18 +4,28 @@
              xmlns:local="clr-namespace:Sobaki">
     <Application.Resources>
 
+        <SolidColorBrush x:Key="DarkColor" Color="#593D3B"/>
+        <SolidColorBrush x:Key="BrownColor" Color="#6F5E53"/>
+        <SolidColorBrush x:Key="CreamColor" Color="#C3A995"/>
+        <SolidColorBrush x:Key="BrightColor" Color="#E0D6CE"/>
+
         <Style TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Times New Roman"></Setter>
             <Setter Property="FontSize" Value="18"></Setter>
             <Setter Property="HorizontalAlignment" Value="Center"></Setter>
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
             <Setter Property="FontWeight" Value="Bold"></Setter>
-            <Setter Property="Foreground" Value="#593D3B"></Setter>
+            <Setter Property="Foreground" Value="{StaticResource DarkColor}"></Setter>
         </Style>
 
         <Style TargetType="TextBox">
             <Setter Property="FontFamily" Value="Times New Roman"></Setter>
             <Setter Property="FontSize" Value="18"></Setter>
+        </Style>
+        <Style TargetType="PasswordBox">
+            <Setter Property="FontFamily" Value="Times New Roman"></Setter>
+            <Setter Property="FontSize" Value="18"></Setter>
+            <Setter Property="PasswordChar" Value="*"/>
         </Style>
 
         <Style TargetType="Button">
@@ -23,8 +33,8 @@
             <Setter Property="FontSize" Value="18"></Setter>
             <Setter Property="Margin" Value="2"></Setter>
             <Setter Property="Padding" Value="10 2"></Setter>
-            <Setter Property="Background" Value="#6F5E53"></Setter>
-            <Setter Property="Foreground" Value="#ffffff"></Setter>
+            <Setter Property="Background" Value="{StaticResource DarkColor}"></Setter>
+            <Setter Property="Foreground" Value="{StaticResource BrightColor}"></Setter>
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
             <Setter Property="HorizontalAlignment" Value="Center"></Setter>
             <Setter Property="Template">
@@ -47,15 +57,21 @@
             <Setter Property="Margin" Value="2"></Setter>
             <Setter Property="Padding" Value="10 2"></Setter>
             <Setter Property="Background" Value="Transparent"></Setter>
-            <Setter Property="Foreground" Value="#6F5E53"></Setter>
+            <Setter Property="Foreground" Value="{StaticResource DarkColor}"></Setter>
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
             <Setter Property="HorizontalAlignment" Value="Center"></Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <TextBlock Foreground="{TemplateBinding Foreground}"
+                        <TextBlock Name="TextContent" 
+                                   Foreground="{TemplateBinding Foreground}"
                                    Text="{TemplateBinding Content}"
                                    Margin="{TemplateBinding Margin}"/>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="TextContent" Property="TextDecorations" Value="Underline"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>

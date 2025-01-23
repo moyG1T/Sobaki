@@ -18,10 +18,10 @@ namespace Sobaki
 
             // контексты
             services.AddSingleton<MainContext>();
+            services.AddSingleton<UserContext>();
 
             // бд
             services.AddSingleton<StrayDogzEntities>();
-
 
             // view models
             services.AddSingleton(MainViewModelFactory);
@@ -30,6 +30,7 @@ namespace Sobaki
             services.AddTransient(AuthViewModelFactory);
             services.AddTransient(GuestViewModelFactory);
             services.AddTransient(AdminCallViewModelFactory);
+            services.AddTransient(AdminPanelViewModelFactory);
 
             _provider = services.BuildServiceProvider();
         }
@@ -53,7 +54,12 @@ namespace Sobaki
         }
         protected AuthViewModel AuthViewModelFactory(IServiceProvider p)
         {
-            return new AuthViewModel(BackOnlyMainNavServiceFactory(p));
+            return new AuthViewModel(
+                BackOnlyMainNavServiceFactory(p),
+                AdminPanelMainNavServiceFactory(p),
+                p.GetRequiredService<UserContext>(),
+                p.GetRequiredService<StrayDogzEntities>()
+                );
         }
         protected GuestViewModel GuestViewModelFactory(IServiceProvider p)
         {
@@ -66,6 +72,15 @@ namespace Sobaki
         protected AdminCallViewModel AdminCallViewModelFactory(IServiceProvider p)
         {
             return new AdminCallViewModel(BackOnlyMainNavServiceFactory(p));
+        }
+        protected AdminPanelViewModel AdminPanelViewModelFactory(IServiceProvider p)
+        {
+            return new AdminPanelViewModel(
+                GuestMainNavServiceFactory(p),
+                GuestMainNavServiceFactory(p),
+                GuestMainNavServiceFactory(p),
+                GuestMainNavServiceFactory(p)
+                );
         }
 
         // окна
@@ -93,6 +108,10 @@ namespace Sobaki
         protected MainNavService AdminCallMainNavServiceFactory(IServiceProvider p)
         {
             return new MainNavService(p.GetRequiredService<MainContext>(), p.GetRequiredService<AdminCallViewModel>);
+        }
+        protected MainNavService AdminPanelMainNavServiceFactory(IServiceProvider p)
+        {
+            return new MainNavService(p.GetRequiredService<MainContext>(), p.GetRequiredService<AdminPanelViewModel>);
         }
     }
 }

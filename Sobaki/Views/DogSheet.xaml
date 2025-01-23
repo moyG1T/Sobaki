@@ -23,7 +23,7 @@
 
                 <Rectangle Width="200" Height="200" RadiusX="10" RadiusY="10" StrokeThickness="1" Stroke="#593D3B">
                     <Rectangle.Fill>
-                        <ImageBrush ImageSource="{Binding BinImage}" Stretch="UniformToFill"/>
+                        <ImageBrush ImageSource="{Binding BinImage, IsAsync=True}" Stretch="UniformToFill"/>
                     </Rectangle.Fill>
                 </Rectangle>
 

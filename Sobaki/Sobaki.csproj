@@ -88,11 +88,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\AdminPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AuthView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DogSheet.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DogsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -157,23 +165,32 @@
     <Compile Include="Domain\Commands\RelayAsyncCommand.cs" />
     <Compile Include="Domain\Commands\RelayCommand.cs" />
     <Compile Include="Domain\Contexts\MainContext.cs" />
+    <Compile Include="Domain\Contexts\UserContext.cs" />
     <Compile Include="Domain\IServices\INavService.cs" />
     <Compile Include="Domain\Services\MainNavService.cs" />
     <Compile Include="Domain\Utilities\ObservableObject.cs" />
     <Compile Include="Domain\Utilities\ViewModel.cs" />
     <Compile Include="Injection\App.cs" />
     <Compile Include="ViewModels\AdminCallViewModel.cs" />
+    <Compile Include="ViewModels\AdminPanelViewModel.cs" />
     <Compile Include="ViewModels\AuthViewModel.cs" />
+    <Compile Include="ViewModels\DogsViewModel.cs" />
     <Compile Include="ViewModels\GuestViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\AdminCallSheet.xaml.cs">
       <DependentUpon>AdminCallSheet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AdminPanelView.xaml.cs">
+      <DependentUpon>AdminPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AuthView.xaml.cs">
       <DependentUpon>AuthView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DogSheet.xaml.cs">
       <DependentUpon>DogSheet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DogsView.xaml.cs">
+      <DependentUpon>DogsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\InitialView.xaml.cs">
       <DependentUpon>InitialView.xaml</DependentUpon>
