@@ -69,6 +69,12 @@
         <Style TargetType="Grid">
             <Setter Property="Background" Value="#E0D6CE"></Setter>
         </Style>
-        
+
+        <Style x:Key="Dog_UC" TargetType="StackPanel">
+            <Setter Property="Grid.Column" Value="2" />
+            <Setter Property="Orientation" Value="Horizontal" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+        </Style>
     </Application.Resources>
 </Application>
