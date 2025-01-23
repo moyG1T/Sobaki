@@ -31,6 +31,7 @@ namespace Sobaki
             services.AddTransient(GuestViewModelFactory);
             services.AddTransient(AdminCallViewModelFactory);
             services.AddTransient(AdminPanelViewModelFactory);
+            services.AddTransient(DogsViewModelFactory);
 
             _provider = services.BuildServiceProvider();
         }
@@ -78,8 +79,15 @@ namespace Sobaki
             return new AdminPanelViewModel(
                 GuestMainNavServiceFactory(p),
                 GuestMainNavServiceFactory(p),
-                GuestMainNavServiceFactory(p),
+                DogsMainNavServiceFactory(p),
                 GuestMainNavServiceFactory(p)
+                );
+        }
+        protected DogsViewModel DogsViewModelFactory(IServiceProvider p)
+        {
+            return new DogsViewModel(
+                BackOnlyMainNavServiceFactory(p),
+                p.GetRequiredService<StrayDogzEntities>()
                 );
         }
 
@@ -112,6 +120,10 @@ namespace Sobaki
         protected MainNavService AdminPanelMainNavServiceFactory(IServiceProvider p)
         {
             return new MainNavService(p.GetRequiredService<MainContext>(), p.GetRequiredService<AdminPanelViewModel>);
+        }
+        protected MainNavService DogsMainNavServiceFactory(IServiceProvider p)
+        {
+            return new MainNavService(p.GetRequiredService<MainContext>(), p.GetRequiredService<DogsViewModel>);
         }
     }
 }

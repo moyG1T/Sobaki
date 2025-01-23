@@ -4,8 +4,31 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Sobaki.Views"
+             xmlns:models="clr-namespace:Sobaki.Data.Remote"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             xmlns:vwp="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel" xmlns:viewmodels="clr-namespace:Sobaki.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:DogsViewModel}">
+
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type models:Dog}">
+            <Border BorderBrush="{StaticResource DarkColor}" 
+                    BorderThickness="1"
+                    Width="300" 
+                    Height="250"
+                    Margin="2"
+                    Padding="2">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Image Source="{Binding BinImage, IsAsync=True}" Stretch="UniformToFill"/>
+                    <TextBlock Text="{Binding Number}" VerticalAlignment="Center" Grid.Row="1"/>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
@@ -17,20 +40,42 @@
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Orientation="Horizontal">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Поиск"/>
-                    <TextBox Text="{Binding SearchText}" Width="150" Height="25" Margin="10 0"/>
+                    <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Width="150" Height="25" Margin="10 0"/>
                 </StackPanel>
-                <Button Content="По дате" Style="{StaticResource TextButtom}"/>
+                <Button Command="{Binding ReverseDateCommand}" Content="По дате" Style="{StaticResource TextButtom}"/>
 
                 <StackPanel Orientation="Vertical" Margin="10 0">
                     <TextBlock Text="Архив" HorizontalAlignment="Left"/>
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="Смэрть"/>
-                        <CheckBox Content="Забрали" Margin="10 0"/>
+                        <CheckBox IsChecked="{Binding IsDeadFilter}" Content="Смэрть"/>
+                        <CheckBox IsChecked="{Binding IsGivenFilter}" Content="Забрали" Margin="10 0"/>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
-            
-            
         </Border>
+
+        <Button Content="Назад" HorizontalAlignment="Right" Margin="10 0"/>
+
+        <ItemsControl ItemsSource="{Binding Dogs}"
+                      Grid.Row="1" 
+                      Background="Transparent"
+                      BorderThickness="0"
+                      VirtualizingPanel.IsVirtualizing="True"
+                      VirtualizingPanel.ScrollUnit="Pixel">
+
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <vwp:VirtualizingWrapPanel HorizontalAlignment="Center" Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.Template>
+                <ControlTemplate>
+                    <ScrollViewer CanContentScroll="True" HorizontalScrollBarVisibility="Disabled">
+                        <ItemsPresenter/>
+                    </ScrollViewer>
+                </ControlTemplate>
+            </ItemsControl.Template>
+        </ItemsControl>
     </Grid>
 </UserControl>
