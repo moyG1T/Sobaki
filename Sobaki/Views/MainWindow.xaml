@@ -32,6 +32,12 @@
         <DataTemplate DataType="{x:Type viewmodels:DogEditViewModel}">
             <views:DogEditSheet/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:VetViewModel}">
+            <views:VetView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:AddReceptionViewModel}">
+            <views:AddReceptionView/>
+        </DataTemplate>
     </Window.Resources>
     
     <Grid>

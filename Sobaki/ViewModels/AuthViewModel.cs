@@ -31,12 +31,14 @@ namespace Sobaki.ViewModels
         public ICommand PopCommand { get; private set; }
         public ICommand LoginCommand { get; private set; }
         public ICommand PushAdminCommand { get; private set; }
+        public ICommand PushVetCommand { get; private set; }
 
-        public AuthViewModel(INavService back, INavService admin, UserContext userContext, StrayDogzEntities db)
+        public AuthViewModel(INavService back, INavService admin, INavService vet, UserContext userContext, StrayDogzEntities db)
         {
             PopCommand = new PopCommand(back);
             LoginCommand = new RelayAsyncCommand(LoginAsync);
             PushAdminCommand = new PushCommand(admin);
+            PushVetCommand = new PushCommand(vet);
 
             _userContext = userContext;
             _db = db;
@@ -61,6 +63,9 @@ namespace Sobaki.ViewModels
 
                 switch (user.PostId)
                 {
+                    case 1:
+                        PushVetCommand?.Execute(null);
+                        break;
                     case 2:
                         PushAdminCommand?.Execute(null);
                         break;

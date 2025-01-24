@@ -20,6 +20,7 @@ namespace Sobaki
             services.AddSingleton<MainContext>();
             services.AddSingleton<UserContext>();
             services.AddSingleton<DogContext>();
+            services.AddSingleton<ReceptionContext>();
 
             // бд
             services.AddSingleton<StrayDogzEntities>();
@@ -34,6 +35,8 @@ namespace Sobaki
             services.AddTransient(AdminPanelViewModelFactory);
             services.AddTransient(DogsViewModelFactory);
             services.AddTransient(DogsEditViewModelFactory);
+            services.AddTransient(VetViewModelFactory);
+            services.AddTransient(AddReceptionViewModelFactory);
 
             _provider = services.BuildServiceProvider();
         }
@@ -60,6 +63,7 @@ namespace Sobaki
             return new AuthViewModel(
                 BackOnlyMainNavServiceFactory(p),
                 AdminPanelMainNavServiceFactory(p),
+                VetMainNavServiceFactory(p),
                 p.GetRequiredService<UserContext>(),
                 p.GetRequiredService<StrayDogzEntities>()
                 );
@@ -102,6 +106,24 @@ namespace Sobaki
                 p.GetRequiredService<StrayDogzEntities>()
                 );
         }
+        protected VetViewModel VetViewModelFactory(IServiceProvider p)
+        {
+            return new VetViewModel(
+                GuestMainNavServiceFactory(p),
+                ReceptionMainNavServiceFactory(p),
+                p.GetRequiredService<ReceptionContext>(),
+                p.GetRequiredService<StrayDogzEntities>()
+                );
+        }
+        protected AddReceptionViewModel AddReceptionViewModelFactory(IServiceProvider p)
+        {
+            return new AddReceptionViewModel(
+                BackOnlyMainNavServiceFactory(p),
+                p.GetRequiredService<ReceptionContext>(),
+                p.GetRequiredService<UserContext>(),
+                p.GetRequiredService<StrayDogzEntities>()
+                );
+        }
 
         // окна
         protected MainWindow MainWindowFactory(IServiceProvider p)
@@ -140,6 +162,14 @@ namespace Sobaki
         protected MainNavService DogEditMainNavServiceFactory(IServiceProvider p)
         {
             return new MainNavService(p.GetRequiredService<MainContext>(), p.GetRequiredService<DogEditViewModel>);
+        }
+        protected MainNavService VetMainNavServiceFactory(IServiceProvider p)
+        {
+            return new MainNavService(p.GetRequiredService<MainContext>(), p.GetRequiredService<VetViewModel>);
+        }
+        protected MainNavService ReceptionMainNavServiceFactory(IServiceProvider p)
+        {
+            return new MainNavService(p.GetRequiredService<MainContext>(), p.GetRequiredService<AddReceptionViewModel>);
         }
     }
 }

@@ -68,7 +68,7 @@
         </StackPanel>
 
         <StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="0 5">
-            <Button Content="Сохранить"/>
+            <Button Command="{Binding SaveChangesCommand}" Content="Сохранить"/>
             <Button Command="{Binding PopCommand}" Content="Назад" Style="{StaticResource TextButtom}"/>
         </StackPanel>
     </Grid>

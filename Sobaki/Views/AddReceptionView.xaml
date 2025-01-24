@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="Sobaki.Views.AddReceptionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Sobaki.Views" xmlns:viewmodels="clr-namespace:Sobaki.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:AddReceptionViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 5">
+                <TextBlock Text="Собака" Margin="10 0"/>
+                <ComboBox ItemsSource="{Binding Dogs}" 
+                          SelectedItem="{Binding SelectedDog}"
+                          DisplayMemberPath="Number"
+                          IsEditable="True"
+                          Width="150"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 5">
+                <TextBlock Text="Болезнь" Margin="10 0"/>
+                <TextBox Width="150" Text="{Binding DiseaseText, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 5">
+                <TextBlock Text="Комментарий" Margin="10 0" VerticalAlignment="Top"/>
+                <TextBox Width="150" Height="100" AcceptsReturn="True" Text="{Binding CommText, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 5">
+                <TextBlock Text="Рекомендация" Margin="10 0" VerticalAlignment="Top"/>
+                <TextBox Width="150" Height="100" AcceptsReturn="True" Text="{Binding RecText, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+
+            <Button Command="{Binding SaveChangesCommand}" Margin="0 5" Content="Сохранить"/>
+            <Button Command="{Binding PopCommand}" Content="Назад" Style="{StaticResource TextButtom}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
