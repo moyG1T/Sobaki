@@ -17,6 +17,8 @@ namespace Sobaki.Data.Remote
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Dog()
         {
+            this.DeadDogs = new HashSet<DeadDog>();
+            this.GivenDogs = new HashSet<GivenDog>();
             this.Receptions = new HashSet<Reception>();
         }
     
@@ -30,13 +32,15 @@ namespace Sobaki.Data.Remote
         public byte[] BinImage { get; set; }
         public int CageId { get; set; }
         public System.DateTime Timestamp { get; set; }
-        public bool IsDead { get; set; }
-        public bool IdGiven { get; set; }
         public int BreedId { get; set; }
     
         public virtual Breed Breed { get; set; }
         public virtual Cage Cage { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DeadDog> DeadDogs { get; set; }
         public virtual Gender Gender { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GivenDog> GivenDogs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Reception> Receptions { get; set; }
     }

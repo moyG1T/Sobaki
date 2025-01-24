@@ -27,9 +27,11 @@ namespace Sobaki.Data.Remote
     
         public virtual DbSet<Breed> Breeds { get; set; }
         public virtual DbSet<Cage> Cages { get; set; }
+        public virtual DbSet<DeadDog> DeadDogs { get; set; }
         public virtual DbSet<Dog> Dogs { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Gender> Genders { get; set; }
+        public virtual DbSet<GivenDog> GivenDogs { get; set; }
         public virtual DbSet<Post> Posts { get; set; }
         public virtual DbSet<Reception> Receptions { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }

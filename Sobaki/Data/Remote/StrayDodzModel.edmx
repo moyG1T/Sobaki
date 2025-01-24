@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище StrayDogzModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище StrayDogzModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Breed">
           <Key>
             <PropertyRef Name="Id" />
@@ -18,6 +18,14 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TypeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DeadDog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DogId" Type="int" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Dog">
           <Key>
@@ -33,8 +41,6 @@
           <Property Name="BinImage" Type="varbinary(max)" />
           <Property Name="CageId" Type="int" Nullable="false" />
           <Property Name="Timestamp" Type="datetime" Nullable="false" />
-          <Property Name="IsDead" Type="bit" Nullable="false" />
-          <Property Name="IdGiven" Type="bit" Nullable="false" />
           <Property Name="BreedId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Employee">
@@ -55,6 +61,14 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GivenDog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DogId" Type="int" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Post">
           <Key>
@@ -104,6 +118,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DeadDog_Dog">
+          <End Role="Dog" Type="Self.Dog" Multiplicity="1" />
+          <End Role="DeadDog" Type="Self.DeadDog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dog">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeadDog">
+              <PropertyRef Name="DogId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Dog_Breed">
           <End Role="Breed" Type="Self.Breed" Multiplicity="1" />
           <End Role="Dog" Type="Self.Dog" Multiplicity="*" />
@@ -149,6 +175,18 @@
             </Principal>
             <Dependent Role="Employee">
               <PropertyRef Name="PostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GivenDog_Dog">
+          <End Role="Dog" Type="Self.Dog" Multiplicity="1" />
+          <End Role="GivenDog" Type="Self.GivenDog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dog">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GivenDog">
+              <PropertyRef Name="DogId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -179,9 +217,11 @@
         <EntityContainer Name="Хранилище StrayDogzModelContainer">
           <EntitySet Name="Breed" EntityType="Self.Breed" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cage" EntityType="Self.Cage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DeadDog" EntityType="Self.DeadDog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Dog" EntityType="Self.Dog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Gender" EntityType="Self.Gender" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GivenDog" EntityType="Self.GivenDog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Reception" EntityType="Self.Reception" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -189,6 +229,10 @@
           <AssociationSet Name="FK_Cage_Type" Association="Self.FK_Cage_Type">
             <End Role="Type" EntitySet="Type" />
             <End Role="Cage" EntitySet="Cage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeadDog_Dog" Association="Self.FK_DeadDog_Dog">
+            <End Role="Dog" EntitySet="Dog" />
+            <End Role="DeadDog" EntitySet="DeadDog" />
           </AssociationSet>
           <AssociationSet Name="FK_Dog_Breed" Association="Self.FK_Dog_Breed">
             <End Role="Breed" EntitySet="Breed" />
@@ -206,6 +250,10 @@
             <End Role="Post" EntitySet="Post" />
             <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
+          <AssociationSet Name="FK_GivenDog_Dog" Association="Self.FK_GivenDog_Dog">
+            <End Role="Dog" EntitySet="Dog" />
+            <End Role="GivenDog" EntitySet="GivenDog" />
+          </AssociationSet>
           <AssociationSet Name="FK_Reception_Dog" Association="Self.FK_Reception_Dog">
             <End Role="Dog" EntitySet="Dog" />
             <End Role="Reception" EntitySet="Reception" />
@@ -215,18 +263,66 @@
             <End Role="Reception" EntitySet="Reception" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="StrayDogzModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="StrayDogzEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Breeds" EntityType="StrayDogzModel.Breed" />
+          <EntitySet Name="Cages" EntityType="StrayDogzModel.Cage" />
+          <EntitySet Name="DeadDogs" EntityType="StrayDogzModel.DeadDog" />
+          <EntitySet Name="Dogs" EntityType="StrayDogzModel.Dog" />
+          <EntitySet Name="Employees" EntityType="StrayDogzModel.Employee" />
+          <EntitySet Name="Genders" EntityType="StrayDogzModel.Gender" />
+          <EntitySet Name="GivenDogs" EntityType="StrayDogzModel.GivenDog" />
+          <EntitySet Name="Posts" EntityType="StrayDogzModel.Post" />
+          <EntitySet Name="Receptions" EntityType="StrayDogzModel.Reception" />
+          <EntitySet Name="sysdiagrams" EntityType="StrayDogzModel.sysdiagram" />
+          <EntitySet Name="Types" EntityType="StrayDogzModel.Type" />
+          <AssociationSet Name="FK_Dog_Breed" Association="StrayDogzModel.FK_Dog_Breed">
+            <End Role="Breed" EntitySet="Breeds" />
+            <End Role="Dog" EntitySet="Dogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cage_Type" Association="StrayDogzModel.FK_Cage_Type">
+            <End Role="Type" EntitySet="Types" />
+            <End Role="Cage" EntitySet="Cages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dog_Cage" Association="StrayDogzModel.FK_Dog_Cage">
+            <End Role="Cage" EntitySet="Cages" />
+            <End Role="Dog" EntitySet="Dogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeadDog_Dog" Association="StrayDogzModel.FK_DeadDog_Dog">
+            <End Role="Dog" EntitySet="Dogs" />
+            <End Role="DeadDog" EntitySet="DeadDogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dog_Gender" Association="StrayDogzModel.FK_Dog_Gender">
+            <End Role="Gender" EntitySet="Genders" />
+            <End Role="Dog" EntitySet="Dogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GivenDog_Dog" Association="StrayDogzModel.FK_GivenDog_Dog">
+            <End Role="Dog" EntitySet="Dogs" />
+            <End Role="GivenDog" EntitySet="GivenDogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reception_Dog" Association="StrayDogzModel.FK_Reception_Dog">
+            <End Role="Dog" EntitySet="Dogs" />
+            <End Role="Reception" EntitySet="Receptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Post" Association="StrayDogzModel.FK_Employee_Post">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reception_Employee" Association="StrayDogzModel.FK_Reception_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Reception" EntitySet="Receptions" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Breed">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Dogs" Relationship="Self.FK_Dog_Breed" FromRole="Breed" ToRole="Dog" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Dogs" Relationship="StrayDogzModel.FK_Dog_Breed" FromRole="Breed" ToRole="Dog" />
         </EntityType>
         <EntityType Name="Cage">
           <Key>
@@ -234,8 +330,17 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TypeId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Type" Relationship="Self.FK_Cage_Type" FromRole="Cage" ToRole="Type" />
-          <NavigationProperty Name="Dogs" Relationship="Self.FK_Dog_Cage" FromRole="Cage" ToRole="Dog" />
+          <NavigationProperty Name="Type" Relationship="StrayDogzModel.FK_Cage_Type" FromRole="Cage" ToRole="Type" />
+          <NavigationProperty Name="Dogs" Relationship="StrayDogzModel.FK_Dog_Cage" FromRole="Cage" ToRole="Dog" />
+        </EntityType>
+        <EntityType Name="DeadDog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DogId" Type="Int32" Nullable="false" />
+          <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Dog" Relationship="StrayDogzModel.FK_DeadDog_Dog" FromRole="DeadDog" ToRole="Dog" />
         </EntityType>
         <EntityType Name="Dog">
           <Key>
@@ -251,43 +356,52 @@
           <Property Name="BinImage" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="CageId" Type="Int32" Nullable="false" />
           <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="IsDead" Type="Boolean" Nullable="false" />
-          <Property Name="IdGiven" Type="Boolean" Nullable="false" />
           <Property Name="BreedId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Breed" Relationship="Self.FK_Dog_Breed" FromRole="Dog" ToRole="Breed" />
-          <NavigationProperty Name="Cage" Relationship="Self.FK_Dog_Cage" FromRole="Dog" ToRole="Cage" />
-          <NavigationProperty Name="Gender" Relationship="Self.FK_Dog_Gender" FromRole="Dog" ToRole="Gender" />
-          <NavigationProperty Name="Receptions" Relationship="Self.FK_Reception_Dog" FromRole="Dog" ToRole="Reception" />
+          <NavigationProperty Name="Breed" Relationship="StrayDogzModel.FK_Dog_Breed" FromRole="Dog" ToRole="Breed" />
+          <NavigationProperty Name="Cage" Relationship="StrayDogzModel.FK_Dog_Cage" FromRole="Dog" ToRole="Cage" />
+          <NavigationProperty Name="DeadDogs" Relationship="StrayDogzModel.FK_DeadDog_Dog" FromRole="Dog" ToRole="DeadDog" />
+          <NavigationProperty Name="Gender" Relationship="StrayDogzModel.FK_Dog_Gender" FromRole="Dog" ToRole="Gender" />
+          <NavigationProperty Name="GivenDogs" Relationship="StrayDogzModel.FK_GivenDog_Dog" FromRole="Dog" ToRole="GivenDog" />
+          <NavigationProperty Name="Receptions" Relationship="StrayDogzModel.FK_Reception_Dog" FromRole="Dog" ToRole="Reception" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Surname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PostId" Type="Int32" Nullable="false" />
-          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Post" Relationship="Self.FK_Employee_Post" FromRole="Employee" ToRole="Post" />
-          <NavigationProperty Name="Receptions" Relationship="Self.FK_Reception_Employee" FromRole="Employee" ToRole="Reception" />
+          <Property Name="Login" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Post" Relationship="StrayDogzModel.FK_Employee_Post" FromRole="Employee" ToRole="Post" />
+          <NavigationProperty Name="Receptions" Relationship="StrayDogzModel.FK_Reception_Employee" FromRole="Employee" ToRole="Reception" />
         </EntityType>
         <EntityType Name="Gender">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Dogs" Relationship="Self.FK_Dog_Gender" FromRole="Gender" ToRole="Dog" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Dogs" Relationship="StrayDogzModel.FK_Dog_Gender" FromRole="Gender" ToRole="Dog" />
+        </EntityType>
+        <EntityType Name="GivenDog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DogId" Type="Int32" Nullable="false" />
+          <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Dog" Relationship="StrayDogzModel.FK_GivenDog_Dog" FromRole="GivenDog" ToRole="Dog" />
         </EntityType>
         <EntityType Name="Post">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Employees" Relationship="Self.FK_Employee_Post" FromRole="Post" ToRole="Employee" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employees" Relationship="StrayDogzModel.FK_Employee_Post" FromRole="Post" ToRole="Employee" />
         </EntityType>
         <EntityType Name="Reception">
           <Key>
@@ -297,17 +411,17 @@
           <Property Name="DogId" Type="Int32" Nullable="false" />
           <Property Name="VeterinarId" Type="Int32" Nullable="false" />
           <Property Name="Timestamp" Type="DateTime" Precision="3" />
-          <Property Name="Disease" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Disease" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Comment" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
           <Property Name="Recommendation" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Dog" Relationship="Self.FK_Reception_Dog" FromRole="Reception" ToRole="Dog" />
-          <NavigationProperty Name="Employee" Relationship="Self.FK_Reception_Employee" FromRole="Reception" ToRole="Employee" />
+          <NavigationProperty Name="Dog" Relationship="StrayDogzModel.FK_Reception_Dog" FromRole="Reception" ToRole="Dog" />
+          <NavigationProperty Name="Employee" Relationship="StrayDogzModel.FK_Reception_Employee" FromRole="Reception" ToRole="Employee" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
             <PropertyRef Name="diagram_id" />
           </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="principal_id" Type="Int32" Nullable="false" />
           <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="version" Type="Int32" />
@@ -318,12 +432,12 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Cages" Relationship="Self.FK_Cage_Type" FromRole="Type" ToRole="Cage" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Cages" Relationship="StrayDogzModel.FK_Cage_Type" FromRole="Type" ToRole="Cage" />
         </EntityType>
         <Association Name="FK_Dog_Breed">
-          <End Role="Breed" Type="Self.Breed" Multiplicity="1" />
-          <End Role="Dog" Type="Self.Dog" Multiplicity="*" />
+          <End Type="StrayDogzModel.Breed" Role="Breed" Multiplicity="1" />
+          <End Type="StrayDogzModel.Dog" Role="Dog" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Breed">
               <PropertyRef Name="Id" />
@@ -334,8 +448,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Cage_Type">
-          <End Role="Type" Type="Self.Type" Multiplicity="1" />
-          <End Role="Cage" Type="Self.Cage" Multiplicity="*" />
+          <End Type="StrayDogzModel.Type" Role="Type" Multiplicity="1" />
+          <End Type="StrayDogzModel.Cage" Role="Cage" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Type">
               <PropertyRef Name="Id" />
@@ -346,8 +460,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Dog_Cage">
-          <End Role="Cage" Type="Self.Cage" Multiplicity="1" />
-          <End Role="Dog" Type="Self.Dog" Multiplicity="*" />
+          <End Type="StrayDogzModel.Cage" Role="Cage" Multiplicity="1" />
+          <End Type="StrayDogzModel.Dog" Role="Dog" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Cage">
               <PropertyRef Name="Id" />
@@ -357,9 +471,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DeadDog_Dog">
+          <End Type="StrayDogzModel.Dog" Role="Dog" Multiplicity="1" />
+          <End Type="StrayDogzModel.DeadDog" Role="DeadDog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dog">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeadDog">
+              <PropertyRef Name="DogId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Dog_Gender">
-          <End Role="Gender" Type="Self.Gender" Multiplicity="1" />
-          <End Role="Dog" Type="Self.Dog" Multiplicity="*" />
+          <End Type="StrayDogzModel.Gender" Role="Gender" Multiplicity="1" />
+          <End Type="StrayDogzModel.Dog" Role="Dog" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Gender">
               <PropertyRef Name="Id" />
@@ -369,9 +495,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_GivenDog_Dog">
+          <End Type="StrayDogzModel.Dog" Role="Dog" Multiplicity="1" />
+          <End Type="StrayDogzModel.GivenDog" Role="GivenDog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dog">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GivenDog">
+              <PropertyRef Name="DogId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Reception_Dog">
-          <End Role="Dog" Type="Self.Dog" Multiplicity="1" />
-          <End Role="Reception" Type="Self.Reception" Multiplicity="*" />
+          <End Type="StrayDogzModel.Dog" Role="Dog" Multiplicity="1" />
+          <End Type="StrayDogzModel.Reception" Role="Reception" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Dog">
               <PropertyRef Name="Id" />
@@ -382,8 +520,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Employee_Post">
-          <End Role="Post" Type="Self.Post" Multiplicity="1" />
-          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <End Type="StrayDogzModel.Post" Role="Post" Multiplicity="1" />
+          <End Type="StrayDogzModel.Employee" Role="Employee" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Post">
               <PropertyRef Name="Id" />
@@ -394,8 +532,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Reception_Employee">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
-          <End Role="Reception" Type="Self.Reception" Multiplicity="*" />
+          <End Type="StrayDogzModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="StrayDogzModel.Reception" Role="Reception" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Employee">
               <PropertyRef Name="Id" />
@@ -405,45 +543,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="StrayDogzEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Breeds" EntityType="Self.Breed" />
-          <EntitySet Name="Cages" EntityType="Self.Cage" />
-          <EntitySet Name="Dogs" EntityType="Self.Dog" />
-          <EntitySet Name="Employees" EntityType="Self.Employee" />
-          <EntitySet Name="Genders" EntityType="Self.Gender" />
-          <EntitySet Name="Posts" EntityType="Self.Post" />
-          <EntitySet Name="Receptions" EntityType="Self.Reception" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
-          <EntitySet Name="Types" EntityType="Self.Type" />
-          <AssociationSet Name="FK_Dog_Breed" Association="Self.FK_Dog_Breed">
-            <End Role="Breed" EntitySet="Breeds" />
-            <End Role="Dog" EntitySet="Dogs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Cage_Type" Association="Self.FK_Cage_Type">
-            <End Role="Type" EntitySet="Types" />
-            <End Role="Cage" EntitySet="Cages" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Dog_Cage" Association="Self.FK_Dog_Cage">
-            <End Role="Cage" EntitySet="Cages" />
-            <End Role="Dog" EntitySet="Dogs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Dog_Gender" Association="Self.FK_Dog_Gender">
-            <End Role="Gender" EntitySet="Genders" />
-            <End Role="Dog" EntitySet="Dogs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Reception_Dog" Association="Self.FK_Reception_Dog">
-            <End Role="Dog" EntitySet="Dogs" />
-            <End Role="Reception" EntitySet="Receptions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Employee_Post" Association="Self.FK_Employee_Post">
-            <End Role="Post" EntitySet="Posts" />
-            <End Role="Employee" EntitySet="Employees" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Reception_Employee" Association="Self.FK_Reception_Employee">
-            <End Role="Employee" EntitySet="Employees" />
-            <End Role="Reception" EntitySet="Receptions" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -453,96 +552,112 @@
           <EntitySetMapping Name="Breeds">
             <EntityTypeMapping TypeName="StrayDogzModel.Breed">
               <MappingFragment StoreEntitySet="Breed">
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Cages">
             <EntityTypeMapping TypeName="StrayDogzModel.Cage">
               <MappingFragment StoreEntitySet="Cage">
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DeadDogs">
+            <EntityTypeMapping TypeName="StrayDogzModel.DeadDog">
+              <MappingFragment StoreEntitySet="DeadDog">
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="DogId" ColumnName="DogId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Dogs">
             <EntityTypeMapping TypeName="StrayDogzModel.Dog">
               <MappingFragment StoreEntitySet="Dog">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Number" ColumnName="Number" />
-                <ScalarProperty Name="Height" ColumnName="Height" />
-                <ScalarProperty Name="Weight" ColumnName="Weight" />
-                <ScalarProperty Name="GenderId" ColumnName="GenderId" />
-                <ScalarProperty Name="Age" ColumnName="Age" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="BinImage" ColumnName="BinImage" />
-                <ScalarProperty Name="CageId" ColumnName="CageId" />
-                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
-                <ScalarProperty Name="IsDead" ColumnName="IsDead" />
-                <ScalarProperty Name="IdGiven" ColumnName="IdGiven" />
                 <ScalarProperty Name="BreedId" ColumnName="BreedId" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="CageId" ColumnName="CageId" />
+                <ScalarProperty Name="BinImage" ColumnName="BinImage" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="GenderId" ColumnName="GenderId" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="StrayDogzModel.Employee">
               <MappingFragment StoreEntitySet="Employee">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Surname" ColumnName="Surname" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
-                <ScalarProperty Name="PostId" ColumnName="PostId" />
-                <ScalarProperty Name="Login" ColumnName="Login" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="PostId" ColumnName="PostId" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Genders">
             <EntityTypeMapping TypeName="StrayDogzModel.Gender">
               <MappingFragment StoreEntitySet="Gender">
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GivenDogs">
+            <EntityTypeMapping TypeName="StrayDogzModel.GivenDog">
+              <MappingFragment StoreEntitySet="GivenDog">
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="DogId" ColumnName="DogId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Posts">
             <EntityTypeMapping TypeName="StrayDogzModel.Post">
               <MappingFragment StoreEntitySet="Post">
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Receptions">
             <EntityTypeMapping TypeName="StrayDogzModel.Reception">
               <MappingFragment StoreEntitySet="Reception">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="DogId" ColumnName="DogId" />
-                <ScalarProperty Name="VeterinarId" ColumnName="VeterinarId" />
-                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
-                <ScalarProperty Name="Disease" ColumnName="Disease" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
                 <ScalarProperty Name="Recommendation" ColumnName="Recommendation" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Disease" ColumnName="Disease" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="VeterinarId" ColumnName="VeterinarId" />
+                <ScalarProperty Name="DogId" ColumnName="DogId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="StrayDogzModel.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
                 <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Types">
             <EntityTypeMapping TypeName="StrayDogzModel.Type">
               <MappingFragment StoreEntitySet="Type">
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -92,7 +92,7 @@ namespace Sobaki
         protected DogsViewModel DogsViewModelFactory(IServiceProvider p)
         {
             return new DogsViewModel(
-                GuestMainNavServiceFactory(p),
+                BackOnlyMainNavServiceFactory(p),
                 DogEditMainNavServiceFactory(p),
                 p.GetRequiredService<DogContext>(),
                 p.GetRequiredService<StrayDogzEntities>()
@@ -111,6 +111,7 @@ namespace Sobaki
             return new VetViewModel(
                 GuestMainNavServiceFactory(p),
                 ReceptionMainNavServiceFactory(p),
+                DogEditMainNavServiceFactory(p),
                 p.GetRequiredService<ReceptionContext>(),
                 p.GetRequiredService<StrayDogzEntities>()
                 );

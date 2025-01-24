@@ -11,7 +11,7 @@
             <Button Content="Сотрудники"/>
             <Button Command="{Binding PushDogsCommand}" Content="Собаки"/>
             <Button Content="Вольеры"/>
-            <Button Content="Выйти" Margin="10 0"/>
+            <Button Command="{Binding LogoutCommand}" Content="Выйти" Margin="10 0"/>
         </StackPanel>
     </Grid>
 </UserControl>

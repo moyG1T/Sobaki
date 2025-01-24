@@ -5,22 +5,26 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="e49b93053334456ea94c38d2d98bf760" Name="Diagram1">
-        <EntityTypeShape EntityType="StrayDogzModel.Breed" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="StrayDogzModel.Cage" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="StrayDogzModel.Dog" Width="1.5" PointX="5.25" PointY="2.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="StrayDogzModel.Employee" Width="1.5" PointX="5.25" PointY="10.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="StrayDogzModel.Gender" Width="1.5" PointX="3" PointY="7.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="StrayDogzModel.Post" Width="1.5" PointX="3" PointY="10.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="StrayDogzModel.Reception" Width="1.5" PointX="7.5" PointY="3.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="StrayDogzModel.sysdiagram" Width="1.5" PointX="7.75" PointY="7.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="StrayDogzModel.Type" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
-        <AssociationConnector Association="StrayDogzModel.FK_Dog_Breed" ManuallyRouted="false" />
-        <AssociationConnector Association="StrayDogzModel.FK_Cage_Type" ManuallyRouted="false" />
-        <AssociationConnector Association="StrayDogzModel.FK_Dog_Cage" ManuallyRouted="false" />
-        <AssociationConnector Association="StrayDogzModel.FK_Dog_Gender" ManuallyRouted="false" />
-        <AssociationConnector Association="StrayDogzModel.FK_Reception_Dog" ManuallyRouted="false" />
-        <AssociationConnector Association="StrayDogzModel.FK_Employee_Post" ManuallyRouted="false" />
-        <AssociationConnector Association="StrayDogzModel.FK_Reception_Employee" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="StrayDogzModel.Breed" Width="1.5" PointX="3" PointY="3.125" />
+        <EntityTypeShape EntityType="StrayDogzModel.Cage" Width="1.5" PointX="3" PointY="6.25" />
+        <EntityTypeShape EntityType="StrayDogzModel.DeadDog" Width="1.5" PointX="7.5" PointY="5" />
+        <EntityTypeShape EntityType="StrayDogzModel.Dog" Width="1.5" PointX="5.25" PointY="5" />
+        <EntityTypeShape EntityType="StrayDogzModel.Employee" Width="1.5" PointX="8.25" PointY="0.75" />
+        <EntityTypeShape EntityType="StrayDogzModel.Gender" Width="1.5" PointX="3" PointY="9.5" />
+        <EntityTypeShape EntityType="StrayDogzModel.GivenDog" Width="1.5" PointX="7.5" PointY="11" />
+        <EntityTypeShape EntityType="StrayDogzModel.Post" Width="1.5" PointX="6" PointY="2.5" />
+        <EntityTypeShape EntityType="StrayDogzModel.Reception" Width="1.5" PointX="10.5" PointY="5.75" />
+        <EntityTypeShape EntityType="StrayDogzModel.sysdiagram" Width="1.5" PointX="7.75" PointY="7.75" />
+        <EntityTypeShape EntityType="StrayDogzModel.Type" Width="1.5" PointX="0.75" PointY="6.375" />
+        <AssociationConnector Association="StrayDogzModel.FK_Dog_Breed" />
+        <AssociationConnector Association="StrayDogzModel.FK_Cage_Type" />
+        <AssociationConnector Association="StrayDogzModel.FK_Dog_Cage" />
+        <AssociationConnector Association="StrayDogzModel.FK_DeadDog_Dog" />
+        <AssociationConnector Association="StrayDogzModel.FK_Dog_Gender" />
+        <AssociationConnector Association="StrayDogzModel.FK_GivenDog_Dog" />
+        <AssociationConnector Association="StrayDogzModel.FK_Reception_Dog" />
+        <AssociationConnector Association="StrayDogzModel.FK_Employee_Post" />
+        <AssociationConnector Association="StrayDogzModel.FK_Reception_Employee" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

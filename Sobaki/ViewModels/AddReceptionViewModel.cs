@@ -16,11 +16,11 @@ namespace Sobaki.ViewModels
 {
     public class AddReceptionViewModel : ViewModel
     {
-        private Dog _selectedDog;
         private readonly ReceptionContext _receptionContext;
         private readonly UserContext _userContext;
         private readonly StrayDogzEntities _db;
 
+        private Dog _selectedDog;
         public Dog SelectedDog
         {
             get { return _selectedDog; }
@@ -66,7 +66,9 @@ namespace Sobaki.ViewModels
 
         private async Task LoadDogs()
         {
-            Dogs = await _db.Dogs.ToListAsync();
+            Dogs = await _db.Dogs
+                .Where(it => it.GivenDogs.Count == 0 && it.DeadDogs.Count == 0)
+                .ToListAsync();
             OnPropertyChanged(nameof(Dogs));
         }
 

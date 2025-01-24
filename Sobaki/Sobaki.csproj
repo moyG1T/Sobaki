@@ -78,13 +78,27 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Document.NET, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocX.3.0.1\lib\net40\Xceed.Document.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Words.NET, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocX.3.0.1\lib\net40\Xceed.Words.NET.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Data\Remote\DeadDog.cs">
+      <DependentUpon>StrayDodzModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Remote\GivenDog.cs">
+      <DependentUpon>StrayDodzModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Domain\Contexts\ReceptionContext.cs" />
+    <Compile Include="Domain\Models\ArchivalReason.cs" />
+    <Compile Include="ViewModels\AddDogViewModel.cs" />
     <Compile Include="ViewModels\AddReceptionViewModel.cs" />
     <Compile Include="ViewModels\VetViewModel.cs" />
     <Compile Include="Views\AddReceptionView.xaml.cs">

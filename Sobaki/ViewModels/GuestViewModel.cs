@@ -40,9 +40,13 @@ namespace Sobaki.ViewModels
         {
             if (param is Dog dog)
             {
-                dog.IdGiven = true;
-                Dogs.Remove(dog);
+                var givenDog = new GivenDog
+                {
+                    DogId = dog.Id,
+                    Timestamp = DateTime.Now,
+                };
 
+                _db.GivenDogs.Add(givenDog);
                 await _db.SaveChangesAsync();
 
                 MessageBox.Show("Спасибо!");
@@ -51,7 +55,9 @@ namespace Sobaki.ViewModels
 
         private async Task LoadDogs()
         {
-            var dogs = await _db.Dogs.Where(it => !it.IdGiven && !it.IsDead).ToListAsync();
+            var dogs = await _db.Dogs
+                .Where(it => it.GivenDogs.Count == 0 && it.DeadDogs.Count == 0)
+                .ToListAsync();
 
             Dogs = new ObservableCollection<Dog>(dogs);
             OnPropertyChanged(nameof(Dogs));

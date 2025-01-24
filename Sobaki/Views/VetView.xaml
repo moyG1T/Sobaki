@@ -11,7 +11,7 @@
              xmlns:models="clr-namespace:Sobaki.Data.Remote"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              d:DesignHeight="450" d:DesignWidth="800">
-    
+
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type models:Reception}">
             <Border BorderThickness="1"
@@ -23,7 +23,7 @@
                     <StackPanel Orientation="Horizontal">
                         <Rectangle Height="50" Width="50" RadiusX="8" RadiusY="8">
                             <Rectangle.Fill>
-                                <ImageBrush ImageSource="{Binding Dog.BinImage}" Stretch="UniformToFill"/>
+                                <ImageBrush ImageSource="{Binding Dog.BinImage}" RenderOptions.BitmapScalingMode="LowQuality" Stretch="UniformToFill"/>
                             </Rectangle.Fill>
                         </Rectangle>
                         <TextBlock Text="{Binding Dog.Number, StringFormat={}Номер: {0}}"
@@ -57,9 +57,9 @@
                 <scm:SortDescription PropertyName="Timestamp" Direction="Descending"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
-        
+
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
@@ -69,9 +69,32 @@
 
         <Grid>
             <Border Background="{StaticResource CreamColor}"/>
-            
-            <Button Command="{Binding PushReceptionCommand}" Content="Новый прием" Margin="20 0" HorizontalAlignment="Left"/>
-            <Button Command="{Binding PopCommand}" Content="Назад" Margin="20 0" HorizontalAlignment="Right"/>
+
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="20 0">
+                <Button Command="{Binding PushReceptionCommand}" Content="Новый прием" HorizontalAlignment="Left"/>
+                <Button Command="{Binding PushDogCommand}" Content="Новая собака" HorizontalAlignment="Left"/>
+                <StackPanel Orientation="Horizontal" Margin="10 0">
+                    <TextBlock Text="Собака" Margin="10 0"/>
+                    <ComboBox ItemsSource="{Binding Dogs}" 
+                          SelectedItem="{Binding SelectedDog}"
+                          DisplayMemberPath="Number"
+                          IsEditable="True"
+                          Width="150"/>
+                    <Button Content="x" Margin="5 0" Command="{Binding RemoveSelectedDogCommand}">
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource TextButtom}" TargetType="Button">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectedDog}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+            <Button Command="{Binding PopCommand}" Content="Выход" Margin="20 0" HorizontalAlignment="Right"/>
         </Grid>
 
         <ItemsControl ItemsSource="{Binding Source={StaticResource ReceptionViewSource}}"

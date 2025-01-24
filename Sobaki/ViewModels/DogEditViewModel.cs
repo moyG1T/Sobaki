@@ -37,6 +37,7 @@ namespace Sobaki.ViewModels
 
         public ICommand PopCommand { get; }
         public ICommand OpenFileDialogCommand { get; }
+        public ICommand KillDogCommand { get; }
         public ICommand SaveChangesCommand { get; }
 
         public DogEditViewModel(INavService back, DogContext dogContext, StrayDogzEntities db)
@@ -44,6 +45,7 @@ namespace Sobaki.ViewModels
             PopCommand = new PopCommand(back);
             OpenFileDialogCommand = new RelayCommand(OpenImage);
             SaveChangesCommand = new RelayAsyncCommand(SaveChangesAsync);
+            KillDogCommand = new RelayAsyncCommand(KillDogAsync);
 
             _dogContext = dogContext;
             _db = db;
@@ -55,6 +57,7 @@ namespace Sobaki.ViewModels
                 Dog = new Dog
                 {
                     Id = _dogContext.SelectedDog.Id,
+                    Number = _dogContext.SelectedDog.Number,
                     Height = _dogContext.SelectedDog.Height,
                     Weight = _dogContext.SelectedDog.Weight,
                     Age = _dogContext.SelectedDog.Age,
@@ -83,6 +86,23 @@ namespace Sobaki.ViewModels
                 PopCommand?.Execute(null);
                 MessageBox.Show("Сохранено");
             }
+        }
+
+        private async Task KillDogAsync()
+        {
+            var deadDog = new DeadDog
+            {
+                DogId = Dog.Id,
+                Timestamp = DateTime.Now,
+            };
+
+            _db.DeadDogs.Add(deadDog);
+            await _db.SaveChangesAsync();
+
+            _dogContext.KillDogNotification(Dog.Id);
+
+            PopCommand?.Execute(null);
+            MessageBox.Show("Собака умэрла");
         }
 
         private void OpenImage()

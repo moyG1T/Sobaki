@@ -65,6 +65,8 @@
                 <TextBlock Text="Дата поступления" FontSize="16" Margin="0 0 10 0" HorizontalAlignment="Left"/>
                 <DatePicker SelectedDate="{Binding Dog.Timestamp, ConverterCulture=ru}" Width="175" HorizontalAlignment="Right"/>
             </StackPanel>
+
+            <Button Content="Умэр" Command="{Binding KillDogCommand}"/>
         </StackPanel>
 
         <StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="0 5">

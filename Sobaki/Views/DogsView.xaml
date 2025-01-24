@@ -25,7 +25,7 @@
                                   RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                   CommandParameter="{Binding}"/>
                 </Border.InputBindings>
-                
+
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -42,7 +42,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
 
         <Border Background="{StaticResource CreamColor}" Padding="10 0">
@@ -51,7 +51,7 @@
                     <TextBlock Text="Поиск"/>
                     <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Width="150" Height="25" Margin="10 0"/>
                 </StackPanel>
-                <Button Command="{Binding ReverseDateCommand}" Content="По дате" Style="{StaticResource TextButtom}"/>
+                <Button Command="{Binding ReverseDateCommand}" Content="По дате ⇅" Style="{StaticResource TextButtom}"/>
 
                 <StackPanel Orientation="Vertical" Margin="10 0">
                     <TextBlock Text="Архив" HorizontalAlignment="Left"/>
@@ -86,5 +86,22 @@
                 </ControlTemplate>
             </ItemsControl.Template>
         </ItemsControl>
+
+        <Grid Grid.Row="2">
+            <Border Background="{StaticResource CreamColor}"/>
+
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Button Command="{Binding FormReportCommand}" Content="Сформировать отчет" Margin="10 0"/>
+                <DatePicker SelectedDate="{Binding StartTimestamp}" VerticalAlignment="Center"/>
+                <TextBlock Text="до" Margin="10 0"/>
+                <DatePicker SelectedDate="{Binding EndTimestamp}" VerticalAlignment="Center"/>
+                <TextBlock Text="Причина" Margin="10 0 5 0"/>
+                <ComboBox ItemsSource="{Binding ArchivalReasons}"
+                          SelectedItem="{Binding ArchivalReason}"
+                          DisplayMemberPath="Title"
+                          IsEditable="True"
+                          Width="150"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>
