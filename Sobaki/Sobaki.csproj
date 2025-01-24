@@ -176,6 +176,7 @@
     <Compile Include="Domain\Commands\PushCommand.cs" />
     <Compile Include="Domain\Commands\RelayAsyncCommand.cs" />
     <Compile Include="Domain\Commands\RelayCommand.cs" />
+    <Compile Include="Domain\Contexts\DogContext.cs" />
     <Compile Include="Domain\Contexts\MainContext.cs" />
     <Compile Include="Domain\Contexts\UserContext.cs" />
     <Compile Include="Domain\IServices\INavService.cs" />
@@ -186,6 +187,7 @@
     <Compile Include="ViewModels\AdminCallViewModel.cs" />
     <Compile Include="ViewModels\AdminPanelViewModel.cs" />
     <Compile Include="ViewModels\AuthViewModel.cs" />
+    <Compile Include="ViewModels\DogEditViewModel.cs" />
     <Compile Include="ViewModels\DogsViewModel.cs" />
     <Compile Include="ViewModels\GuestViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

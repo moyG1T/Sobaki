@@ -22,11 +22,19 @@
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Vertical" Grid.Row="2">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 5">
                     <TextBlock Text="Логин"/>
-                    <TextBox Text="{Binding LoginText, UpdateSourceTrigger=PropertyChanged}" Width="150" Margin="20 0"/>
+                    <TextBox x:Name="LoginTextBox" Text="{Binding LoginText, UpdateSourceTrigger=PropertyChanged}" Width="150" Margin="20 0">
+                        <TextBox.InputBindings>
+                            <KeyBinding Key="Enter" Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=PasswordString}"/>
+                        </TextBox.InputBindings>
+                    </TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 5">
                     <TextBlock Text="Пароль"/>
-                    <PasswordBox Name="PasswordString" Width="150" Margin="20 0"/>
+                    <PasswordBox Name="PasswordString" Width="150" Margin="20 0">
+                        <PasswordBox.InputBindings>
+                            <KeyBinding Key="Enter" Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=PasswordString}"/>
+                        </PasswordBox.InputBindings>
+                    </PasswordBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0 10" HorizontalAlignment="Center">
                     <Button Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=PasswordString}" Content="Войти" Margin="5 0" HorizontalAlignment="Center"/>

@@ -22,6 +22,14 @@
             <Setter Property="FontFamily" Value="Times New Roman"></Setter>
             <Setter Property="FontSize" Value="18"></Setter>
         </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="FontFamily" Value="Times New Roman"></Setter>
+            <Setter Property="FontSize" Value="18"></Setter>
+        </Style>
+        <Style TargetType="DatePicker">
+            <Setter Property="FontFamily" Value="Times New Roman"></Setter>
+            <Setter Property="FontSize" Value="18"></Setter>
+        </Style>
         <Style TargetType="PasswordBox">
             <Setter Property="FontFamily" Value="Times New Roman"></Setter>
             <Setter Property="FontSize" Value="18"></Setter>

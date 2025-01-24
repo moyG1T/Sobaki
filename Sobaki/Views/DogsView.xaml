@@ -13,10 +13,18 @@
         <DataTemplate DataType="{x:Type models:Dog}">
             <Border BorderBrush="{StaticResource DarkColor}" 
                     BorderThickness="1"
-                    Width="300" 
-                    Height="250"
+                    Background="Transparent"
+                    Width="200" 
+                    Height="150"
                     Margin="2"
                     Padding="2">
+
+                <Border.InputBindings>
+                    <MouseBinding Gesture="LeftClick" Command="{Binding DataContext.PushDogCommand,
+                                  RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                  CommandParameter="{Binding}"/>
+                </Border.InputBindings>
+                
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -54,7 +62,7 @@
             </StackPanel>
         </Border>
 
-        <Button Content="Назад" HorizontalAlignment="Right" Margin="10 0"/>
+        <Button Command="{Binding PopCommand}" Content="Назад" HorizontalAlignment="Right" Margin="10 0"/>
 
         <ItemsControl ItemsSource="{Binding Dogs}"
                       Grid.Row="1" 

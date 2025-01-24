@@ -19,6 +19,7 @@ namespace Sobaki
             // контексты
             services.AddSingleton<MainContext>();
             services.AddSingleton<UserContext>();
+            services.AddSingleton<DogContext>();
 
             // бд
             services.AddSingleton<StrayDogzEntities>();
@@ -32,6 +33,7 @@ namespace Sobaki
             services.AddTransient(AdminCallViewModelFactory);
             services.AddTransient(AdminPanelViewModelFactory);
             services.AddTransient(DogsViewModelFactory);
+            services.AddTransient(DogsEditViewModelFactory);
 
             _provider = services.BuildServiceProvider();
         }
@@ -86,7 +88,17 @@ namespace Sobaki
         protected DogsViewModel DogsViewModelFactory(IServiceProvider p)
         {
             return new DogsViewModel(
+                GuestMainNavServiceFactory(p),
+                DogEditMainNavServiceFactory(p),
+                p.GetRequiredService<DogContext>(),
+                p.GetRequiredService<StrayDogzEntities>()
+                );
+        }
+        protected DogEditViewModel DogsEditViewModelFactory(IServiceProvider p)
+        {
+            return new DogEditViewModel(
                 BackOnlyMainNavServiceFactory(p),
+                p.GetRequiredService<DogContext>(),
                 p.GetRequiredService<StrayDogzEntities>()
                 );
         }
@@ -124,6 +136,10 @@ namespace Sobaki
         protected MainNavService DogsMainNavServiceFactory(IServiceProvider p)
         {
             return new MainNavService(p.GetRequiredService<MainContext>(), p.GetRequiredService<DogsViewModel>);
+        }
+        protected MainNavService DogEditMainNavServiceFactory(IServiceProvider p)
+        {
+            return new MainNavService(p.GetRequiredService<MainContext>(), p.GetRequiredService<DogEditViewModel>);
         }
     }
 }
