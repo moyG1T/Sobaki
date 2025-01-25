@@ -61,12 +61,52 @@
                 <TextBlock Text="Пол" FontSize="16" Margin="0 0 10 0"/>
                 <ComboBox ItemsSource="{Binding Genders}" SelectedItem="{Binding SelectedGender}" DisplayMemberPath="Title" IsEditable="True" Width="75"/>
             </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+                <TextBlock Text="Порода" FontSize="16" Margin="0 0 10 0"/>
+                <ComboBox ItemsSource="{Binding Breeds}" SelectedItem="{Binding SelectedBreed}" DisplayMemberPath="Title" IsEditable="True" Width="75"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+                <TextBlock Text="Вольер" FontSize="16" Margin="0 0 10 0"/>
+                <ComboBox ItemsSource="{Binding Cages}" SelectedItem="{Binding SelectedCage}" 
+                          DisplayMemberPath="Type.Title" IsEditable="True" Width="75"/>
+            </StackPanel>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Margin="5">
                 <TextBlock Text="Дата поступления" FontSize="16" Margin="0 0 10 0" HorizontalAlignment="Left"/>
                 <DatePicker SelectedDate="{Binding Dog.Timestamp, ConverterCulture=ru}" Width="175" HorizontalAlignment="Right"/>
             </StackPanel>
 
-            <Button Content="Умэр" Command="{Binding KillDogCommand}"/>
+            <Button Content="Умэр" Command="{Binding KillDogCommand}">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="FontFamily" Value="Times New Roman"></Setter>
+                        <Setter Property="FontSize" Value="18"></Setter>
+                        <Setter Property="Margin" Value="2"></Setter>
+                        <Setter Property="Padding" Value="10 2"></Setter>
+                        <Setter Property="Background" Value="{StaticResource DarkColor}"></Setter>
+                        <Setter Property="Foreground" Value="{StaticResource BrightColor}"></Setter>
+                        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                        <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}"
+                                Margin="{TemplateBinding Margin}">
+                                        <TextBlock Foreground="{TemplateBinding Foreground}"
+                                       Text="{TemplateBinding Content}"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Dog.Id}" Value="0">
+                                <Setter Property="Visibility" Value="Collapsed"/> 
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
         </StackPanel>
 
         <StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="0 5">

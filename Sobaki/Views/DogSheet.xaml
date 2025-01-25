@@ -30,27 +30,27 @@
                 <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 5">
                         <TextBlock Text="Номер" FontSize="16" Margin="0 0 10 0"/>
-                        <TextBox Text="{Binding Number}" Width="75" IsEnabled="False"/>
+                        <TextBox Text="{Binding Number}" Width="110" IsEnabled="False"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 5">
                         <TextBlock Text="Рост" FontSize="16" Margin="0 0 10 0"/>
-                        <TextBox Text="{Binding Height}" Width="75" IsEnabled="False"/>
+                        <TextBox Text="{Binding Height}" Width="110" IsEnabled="False"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 5">
                         <TextBlock Text="Вес" FontSize="16" Margin="0 0 10 0"/>
-                        <TextBox Width="75" Text="{Binding Weight}" IsEnabled="False"/>
+                        <TextBox Width="110" Text="{Binding Weight}" IsEnabled="False"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 5">
                         <TextBlock Text="Возраст" FontSize="16" Margin="0 0 10 0"/>
-                        <TextBox Text="{Binding Age}" Width="75" IsEnabled="False"/>
+                        <TextBox Text="{Binding Age}" Width="110" IsEnabled="False"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 5">
                         <TextBlock Text="Пол" FontSize="16" Margin="0 0 10 0"/>
-                        <TextBox Text="{Binding Gender.Title}" Width="75" IsEnabled="False"/>
+                        <TextBox Text="{Binding Gender.Title}" Width="110" IsEnabled="False"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 5">
@@ -61,7 +61,7 @@
                         </TextBlock>
                         <TextBox Text="{Binding Timestamp,
                             StringFormat='{}{0:dd MMM yyyy}', 
-                            ConverterCulture=ru}" Width="100" Height="25" IsEnabled="False"/>
+                            ConverterCulture=ru}" Width="110" Height="25" IsEnabled="False"/>
                     </StackPanel>
                 </StackPanel>
             </Grid>

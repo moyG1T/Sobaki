@@ -57,14 +57,14 @@ namespace Sobaki.ViewModels
             set { _archivalReason = value; OnPropertyChanged(); }
         }
 
-        private DateTime _startTimestamp = DateTime.Now;
+        private DateTime _startTimestamp = DateTime.Today.AddDays(-1);
         public DateTime StartTimestamp
         {
             get { return _startTimestamp; }
             set { _startTimestamp = value; OnPropertyChanged(); }
         }
 
-        private DateTime _endTimestamp = DateTime.Now;
+        private DateTime _endTimestamp = DateTime.Today.AddDays(1);
         public DateTime EndTimestamp
         {
             get { return _endTimestamp; }
@@ -146,23 +146,23 @@ namespace Sobaki.ViewModels
             Dogs = _isDescending
                 ? string.IsNullOrEmpty(SearchText)
                     ? _initialDogsCollection
-                        .Where(it => it.GivenDogs.Count == 0 == IsGivenFilter && it.DeadDogs.Count == 0 == IsDeadFilter)
+                        .Where(it => (it.GivenDogs.Count != 0 == IsGivenFilter) && (it.DeadDogs.Count != 0 == IsDeadFilter))
                         .OrderByDescending(it => it.Timestamp)
                         .ToList()
                     : _initialDogsCollection
-                        .Where(it => it.GivenDogs.Count != 0 == IsGivenFilter
-                            && it.DeadDogs.Count == 0 == IsDeadFilter
+                        .Where(it => (it.GivenDogs.Count != 0 == IsGivenFilter) 
+                            && (it.DeadDogs.Count != 0 == IsDeadFilter)
                             && it.Number.ToString().ToLower().Contains(SearchText.ToLower()))
                         .OrderByDescending(it => it.Timestamp)
                         .ToList()
                 : string.IsNullOrEmpty(SearchText)
                     ? _initialDogsCollection
-                    .Where(it => it.GivenDogs.Count == 0 == IsGivenFilter && it.DeadDogs.Count == 0 == IsDeadFilter)
+                    .Where(it => (it.GivenDogs.Count != 0 == IsGivenFilter) && (it.DeadDogs.Count != 0 == IsDeadFilter))
                         .OrderBy(it => it.Timestamp)
                         .ToList()
                     : _initialDogsCollection
-                        .Where(it => it.GivenDogs.Count == 0 == IsDeadFilter
-                            && it.DeadDogs.Count == 0 == IsGivenFilter
+                        .Where(it => (it.GivenDogs.Count != 0 == IsDeadFilter)
+                            && (it.DeadDogs.Count != 0 == IsGivenFilter)
                             && it.Number.ToString().ToLower().Contains(SearchText.ToLower()))
                         .OrderBy(it => it.Timestamp)
                         .ToList();
@@ -181,7 +181,7 @@ namespace Sobaki.ViewModels
         }
         private void PushDog(object param)
         {
-            if (param is Dog dog /*&& !dog.IsDead && !dog.IdGiven*/)
+            if (param is Dog dog && dog.DeadDogs.Count == 0 && dog.GivenDogs.Count == 0)
             {
                 _dogContext.SelectedDog = dog;
                 _dog.Push();
@@ -230,8 +230,10 @@ namespace Sobaki.ViewModels
                     break;
                 case 3:
                     var dogs = await _db.Dogs
-                        .Where(it => it.Timestamp >= StartTimestamp && it.Timestamp <= EndTimestamp)
-                        .Where(it => it.GivenDogs.Count != 0 || it.DeadDogs.Count != 0)
+                        .Where(it => 
+                        it.GivenDogs.Any(gd => gd.Timestamp >= StartTimestamp && gd.Timestamp <= EndTimestamp) 
+                        ||
+                        it.DeadDogs.Any(gd => gd.Timestamp >= StartTimestamp && gd.Timestamp <= EndTimestamp))
                         .ToListAsync();
 
                     MakeReport(dogs);
@@ -257,12 +259,12 @@ namespace Sobaki.ViewModels
                     string filePath = saveFileDialog.FileName;
 
                     var docx = DocX.Create(filePath);
-                    var title = docx.InsertParagraph("Собаки");
+                    var title = docx.InsertParagraph("Архив собак");
                     title.Alignment = Alignment.center;
                     title.FontSize(14);
 
                     var table = docx.AddTable(1, 3);
-                    table.Rows[0].Cells[0].Paragraphs[0].Append("Id");
+                    table.Rows[0].Cells[0].Paragraphs[0].Append("Номер");
                     table.Rows[0].Cells[1].Paragraphs[0].Append("Причина");
                     table.Rows[0].Cells[2].Paragraphs[0].Append("Дата");
 
@@ -273,34 +275,34 @@ namespace Sobaki.ViewModels
 
                         if (isDead && isGiven)
                         {
-                            var deadTimestamp = dog.DeadDogs.First().Timestamp.ToString("dd-MMM-yyyy");
+                            var deadTimestamp = dog.DeadDogs.First().Timestamp.ToString("dd MMM yyyy");
                             var deadRow = table.InsertRow();
-                            deadRow.Cells[0].Paragraphs[0].Append(dog.Number.ToString());
+                            deadRow.Cells[0].Paragraphs[0].Append(dog.Number);
                             deadRow.Cells[1].Paragraphs[0].Append("Умерла");
                             deadRow.Cells[2].Paragraphs[0].Append(deadTimestamp);
 
-                            var givenTimestamp = dog.DeadDogs.First().Timestamp.ToString("dd-MMM-yyyy");
+                            var givenTimestamp = dog.DeadDogs.First().Timestamp.ToString("dd MMM yyyy");
                             var givenRow = table.InsertRow();
-                            givenRow.Cells[0].Paragraphs[0].Append(dog.Number.ToString());
+                            givenRow.Cells[0].Paragraphs[0].Append(dog.Number);
                             givenRow.Cells[1].Paragraphs[0].Append("Отдана");
                             givenRow.Cells[2].Paragraphs[0].Append(deadTimestamp);
                         }
                         else if (isDead)
                         {
-                            var timestamp = dog.DeadDogs.First().Timestamp.ToString("dd-MMM-yyyy");
+                            var timestamp = dog.DeadDogs.First().Timestamp.ToString("dd MMM yyyy");
 
                             var row = table.InsertRow();
-                            row.Cells[0].Paragraphs[0].Append(dog.Number.ToString());
+                            row.Cells[0].Paragraphs[0].Append(dog.Number);
                             row.Cells[1].Paragraphs[0].Append("Умерла");
                             row.Cells[2].Paragraphs[0].Append(timestamp);
 
                         }
                         else if (isGiven)
                         {
-                            var timestamp = dog.GivenDogs.First().Timestamp.ToString("dd-MMM-yyyy");
+                            var timestamp = dog.GivenDogs.First().Timestamp.ToString("dd MMM yyyy");
 
                             var row = table.InsertRow();
-                            row.Cells[0].Paragraphs[0].Append(dog.Number.ToString());
+                            row.Cells[0].Paragraphs[0].Append(dog.Number);
                             row.Cells[1].Paragraphs[0].Append("Отдана");
                             row.Cells[2].Paragraphs[0].Append(timestamp);
                         }

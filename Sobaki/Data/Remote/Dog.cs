@@ -23,13 +23,12 @@ namespace Sobaki.Data.Remote
         }
     
         public int Id { get; set; }
-        public int Number { get; set; }
+        public string Number { get; set; }
         public int Height { get; set; }
         public int Weight { get; set; }
         public int GenderId { get; set; }
         public int Age { get; set; }
         public int Phone { get; set; }
-        public byte[] BinImage { get; set; }
         public int CageId { get; set; }
         public System.DateTime Timestamp { get; set; }
         public int BreedId { get; set; }

@@ -49,6 +49,8 @@ namespace Sobaki.ViewModels
                 _db.GivenDogs.Add(givenDog);
                 await _db.SaveChangesAsync();
 
+                Dogs.Remove(dog);
+
                 MessageBox.Show("Спасибо!");
             }
         }

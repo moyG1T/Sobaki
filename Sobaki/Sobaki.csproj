@@ -96,9 +96,9 @@
     <Compile Include="Data\Remote\GivenDog.cs">
       <DependentUpon>StrayDodzModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\Remote\Models\Dog.cs" />
     <Compile Include="Domain\Contexts\ReceptionContext.cs" />
     <Compile Include="Domain\Models\ArchivalReason.cs" />
-    <Compile Include="ViewModels\AddDogViewModel.cs" />
     <Compile Include="ViewModels\AddReceptionViewModel.cs" />
     <Compile Include="ViewModels\VetViewModel.cs" />
     <Compile Include="Views\AddReceptionView.xaml.cs">

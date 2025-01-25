@@ -24,11 +24,25 @@ namespace Sobaki.ViewModels
             get { return _selectedGender; }
             set { _selectedGender = value; OnPropertyChanged(); }
         }
+        public List<Breed> Breeds { get; set; }
+        private Breed _selectedBreed;
+        public Breed SelectedBreed
+        {
+            get { return _selectedBreed; }
+            set { _selectedBreed = value; OnPropertyChanged(); }
+        }
+        public List<Cage> Cages { get; set; }
+        private Cage _selectedCage;
+        public Cage SelectedCage
+        {
+            get { return _selectedCage; }
+            set { _selectedCage = value; OnPropertyChanged(); }
+        }
 
-        private Dog _dog = new Dog();
         private readonly DogContext _dogContext;
         private readonly StrayDogzEntities _db;
 
+        private Dog _dog = new Dog() { Timestamp = DateTime.Now };
         public Dog Dog
         {
             get { return _dog; }
@@ -51,6 +65,8 @@ namespace Sobaki.ViewModels
             _db = db;
 
             Genders = _db.Genders.ToList();
+            Breeds = _db.Breeds.ToList();
+            Cages = _db.Cages.ToList();
 
             if (_dogContext.SelectedDog != null)
             {
@@ -64,27 +80,67 @@ namespace Sobaki.ViewModels
                     Gender = _dogContext.SelectedDog.Gender,
                     Timestamp = _dogContext.SelectedDog.Timestamp,
                     BinImage = _dogContext.SelectedDog.BinImage,
+                    Breed = _dogContext.SelectedDog.Breed,
                 };
+                SelectedBreed = Dog.Breed;
                 SelectedGender = Dog.Gender;
             }
         }
 
         private async Task SaveChangesAsync()
         {
-            var dog = await _db.Dogs.FirstOrDefaultAsync(it => it.Id == Dog.Id);
+            var dog = Dog.Id == 0 ? null : await _db.Dogs.FirstOrDefaultAsync(it => it.Id == Dog.Id);
 
             if (dog != null)
             {
                 dog.Weight = Dog.Weight;
                 dog.Height = Dog.Height;
                 dog.Age = Dog.Age;
-                dog.Gender = Dog.Gender;
                 dog.Timestamp = Dog.Timestamp;
+                dog.BinImage = Dog.BinImage;
+                dog.Breed = SelectedBreed;
+                dog.Gender = SelectedGender;
+                dog.Cage = SelectedCage;
 
                 await _db.SaveChangesAsync();
                 Dog = dog;
+
                 PopCommand?.Execute(null);
                 MessageBox.Show("Сохранено");
+            }
+            else
+            {
+                try
+                {
+                    var addingDog = new Dog
+                    {
+                        Number = "temp123",
+                        Weight = Dog.Weight,
+                        Height = Dog.Height,
+                        Age = Dog.Age,
+                        Gender = SelectedGender,
+                        Timestamp = Dog.Timestamp,
+                        BinImage = Dog.BinImage,
+                        Breed = SelectedBreed,
+                        Phone = 123,
+                        Cage = SelectedCage,
+                    };
+
+                    _db.Dogs.Add(addingDog);
+                    await _db.SaveChangesAsync();
+
+                    addingDog.Number = $"D{addingDog.Id}_{addingDog.Timestamp:dd-MM-yy}";
+                    await _db.SaveChangesAsync();
+
+                    _dogContext.AddDogNotification(addingDog);
+
+                    PopCommand?.Execute(null);
+                    MessageBox.Show("Добавлено");
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Что-то пошло не так :[");
+                }
             }
         }
 
@@ -109,7 +165,7 @@ namespace Sobaki.ViewModels
         {
             var openFileDialog = new OpenFileDialog
             {
-                Filter = "*.jpg;*.png|Медиа"
+                Filter = "Медиа|*.jpg;*.png"
             };
 
             if (openFileDialog.ShowDialog().GetValueOrDefault())
